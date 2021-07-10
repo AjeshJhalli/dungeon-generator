@@ -47,18 +47,16 @@ def generate_dungeon(num_rooms):
     # A array containing the coordinates of rooms that should be considered for branching off of
     available_rooms = [(0, 0)]
 
-    # A list of doors. The doors are defined by the structure: (room_index, direction)
-    # where room_index is the index of a room in the rooms array and direction is an integer
-    # constant representing one of the four directions (EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3)
-
+    # A list of doors. The doors are defined by the structure: (room, direction)
+    # where room is a coordinate representing the room's position, and direction is an integer
+    # constant representing one of the four directions (RIGHT = 0, DOWN = 1, LEFT = 2, RIGHT = 3)
+    # that the door is facing in. For example, ((3, 4), RIGHT) means the door is to the RIGHT of
+    # the room at coordinate (3, 4)
     doors = []
 
     while len(rooms) < num_rooms:
 
         door_positions = [RIGHT, DOWN, LEFT, UP]
-
-        # Check what neighbours rooms[room_index] has
-        # And then stop new neighbour rooms from being generated there
 
         # Choose a random room from the available rooms to branch off of
         room = random.choice(available_rooms)
