@@ -19,13 +19,20 @@ def main():
     
     running = True
 
-    rooms, doors = generate_dungeon(200)
+    rooms, doors = generate_dungeon(20)
     print(len(rooms))
 
+    x_change = 10
+    y_change = 10
+
     for room in rooms:
-        render_room(window, room[0], room[1])
+        x = room[0] + x_change
+        y = room[1] + y_change
+        render_room(window, x, y)
 
     for door in doors:
+        room = (door[0][0] + x_change, door[0][1] + y_change)
+        door = (room, door[1])
         render_door(window, door)
 
     pygame.display.update()
