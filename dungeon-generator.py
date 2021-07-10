@@ -41,77 +41,74 @@ def main():
 
 def generate_dungeon(num_rooms):
 
-    # Add doors in after placing rooms together randomly
-
+    # An array containing the coordinates of the first room (x, y)
     rooms = [(0, 0)]
 
-    # A list of rooms that should be considered for branching off of
+    # A array containing the coordinates of rooms that should be considered for branching off of
     available_rooms = [(0, 0)]
 
-    # The pair indexes will be in the stucture of (room1, room2, where room2 is relative to room1)
-    # (room1, room2, right) means room2 is to the right of room1
+    # A list of doors. The doors are defined by the structure: (room_index, direction)
+    # where room_index is the index of a room in the rooms array and direction is an integer
+    # constant representing one of the four directions (EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3)
+
     doors = []
 
     while len(rooms) < num_rooms:
 
-        room_index = random.randint(0, len(available_rooms) - 1)
-
-        # [right, down, left, up]
-        generate_rooms = [0, 1, 2, 3]
+        door_positions = [RIGHT, DOWN, LEFT, UP]
 
         # Check what neighbours rooms[room_index] has
         # And then stop new neighbour rooms from being generated there
 
-        room = available_rooms[room_index]
+        # Choose a random room from the available rooms to branch off of
+        room = random.choice(available_rooms)
+
+        # Get the x and y values of the current room
         x = room[0]
         y = room[1]
 
         if (x + 1, y) in rooms:
-            generate_rooms.remove(0)
+            door_positions.remove(RIGHT)
 
         if (x, y + 1) in rooms:
-            generate_rooms.remove(1)
+            door_positions.remove(DOWN)
 
         if (x - 1, y) in rooms:
-            generate_rooms.remove(2)
+            door_positions.remove(LEFT)
 
         if (x, y - 1) in rooms:
-            generate_rooms.remove(3)
+            door_positions.remove(UP)
 
-        if len(generate_rooms) == 0:
+        if len(door_positions) == 0:
+            # If there are no doors available to branch off of, this room needs to be removed
+            # from the list of available rooms
             available_rooms.remove(room)
-            continue
 
-        print('Generate rooms: ', generate_rooms)
-        neighbour_choice = random.choice(generate_rooms)
+        else:
+            # Otherwise, add the neighbour room
 
-        if neighbour_choice == 0:
-            neighbour = (x + 1, y)
-            direction = 0
-        elif neighbour_choice == 1:
-            neighbour = (x, y + 1)
-            direction = 1
-        elif neighbour_choice == 2:
-            neighbour = (x - 1, y)
-            direction = 2
-        elif neighbour_choice == 3:
-            neighbour = (x, y - 1)
-            direction = 3
+            # This is basically picking a random door position to make the neighbour
+            # branch off of
+            neighbour_direction = random.choice(door_positions)
 
-        doors.append((room, direction))
+            # Calculates the coordinates of the neighbour based on it's position
+            if neighbour_direction == RIGHT:
+                neighbour = (x + 1, y)
+            elif neighbour_direction == DOWN:
+                neighbour = (x, y + 1)
+            elif neighbour_direction == LEFT:
+                neighbour = (x - 1, y)
+            elif neighbour_direction == UP:
+                neighbour = (x, y - 1)
 
-        rooms.append(neighbour)
-        available_rooms.append(neighbour)
+            # Add the door representation
+            doors.append((room, neighbour_direction))
 
-    """
-    rooms_with_doors = [(False, False, False, False, room[0], room[1]) for room in rooms]
-
-    for pair in pair_indexes:
-        room1 = rooms[pair[0]]
-        room2 = rooms[pair[1]]
-        if direction == 0 and not rooms_with_doors[pair]:
-            room1_with_door = ()
-    """
+            # Add the neighbour to the room arrays. Since it hasn't been checked yet, we
+            # consider it available to branch off of. Once it has been checked and identified
+            # as not available, we can remove it from the available_rooms array.
+            rooms.append(neighbour)
+            available_rooms.append(neighbour)
 
     return rooms, doors
 
