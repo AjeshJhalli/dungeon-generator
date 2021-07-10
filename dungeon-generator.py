@@ -126,20 +126,6 @@ def render_room(window, x, y):
     # Draw the room
     pygame.draw.rect(window, ROOM_COLOUR, (render_x, render_y, ROOM_WIDTH, ROOM_WIDTH))
 
-    # Draw the doors if they exist
-    """
-    if right:
-        pygame.draw.rect(window, DOOR_COLOUR, (render_x + ROOM_WIDTH - DOOR_WIDTH, render_y + (ROOM_WIDTH - DOOR_WIDTH) / 2, DOOR_WIDTH, DOOR_WIDTH))
-
-    if down:
-        pygame.draw.rect(window, DOOR_COLOUR, (render_x + (ROOM_WIDTH - DOOR_WIDTH) / 2, render_y + ROOM_WIDTH - DOOR_WIDTH, DOOR_WIDTH, DOOR_WIDTH))
-
-    if left:
-        pygame.draw.rect(window, DOOR_COLOUR, (render_x, render_y + (ROOM_WIDTH - DOOR_WIDTH) / 2, DOOR_WIDTH, DOOR_WIDTH))
-
-    if up:
-        pygame.draw.rect(window, DOOR_COLOUR, (render_x + (ROOM_WIDTH - DOOR_WIDTH) / 2, render_y, DOOR_WIDTH, DOOR_WIDTH))
-    """
 
 def render_door(window, door):
 
